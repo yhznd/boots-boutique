@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name="BOOTS")
 public class Boot {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "TYPE")

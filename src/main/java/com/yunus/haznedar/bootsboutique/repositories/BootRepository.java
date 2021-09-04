@@ -4,11 +4,13 @@ import com.yunus.haznedar.bootsboutique.entities.Boot;
 import com.yunus.haznedar.bootsboutique.enums.BootType;
 import org.springframework.data.repository.CrudRepository;
 import java.util.List;
+import java.util.Optional;
 
 public interface BootRepository extends CrudRepository<Boot,Integer>
 {
 
     //single
+    Optional<Boot> findById(Integer id);
     List<Boot> findBootBySize(Float size);
     List<Boot> findBootByType(BootType type);
     List<Boot> findBootByMaterial(String material);
