@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class BootAddIntegrationTest
+public class BootServiceIntegrationTest
 {
     //WebEnvironment.NONE -> none of our controller components will be loaded
 

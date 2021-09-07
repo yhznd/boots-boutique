@@ -43,7 +43,8 @@ public class BootController {
     }
 
     @PostMapping("/")
-    public Boot addBoot(@RequestBody Boot boot) {
+    public Boot addBoot(@RequestBody Boot boot)
+    {
         return bootService.addBoot(boot);
     }
 
