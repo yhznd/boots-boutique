@@ -22,11 +22,11 @@ You can reach the interface with this URL: http://localhost:4001/index.html
 <img src="https://user-images.githubusercontent.com/21241545/131887528-87857f0f-ef0e-41ad-b8c5-2b8135c092a7.png" width="250">
 
 
-### RabbitMQ Queues:
+### RabbitMQ Queues
 
 There are 2 queues in the RabbitMQ. One of them is for boot creation and the other one is boot deletion.
 
-<img src="https://user-images.githubusercontent.com/21241545/132947882-d99a6086-2c5a-458e-b55e-55f93dcdab93.png" width="250">
+<img src="https://user-images.githubusercontent.com/21241545/132947882-d99a6086-2c5a-458e-b55e-55f93dcdab93.png" width="450">
 
 
 ##### Note: Frontend side is taken from a template.
