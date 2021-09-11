@@ -19,12 +19,8 @@ import java.util.Optional;
 @Service
 public class BootService
 {
-    private final BootRepository bootRepository;
-
-    public BootService(final BootRepository bootRepository)
-    {
-        this.bootRepository=bootRepository;
-    }
+    @Autowired
+    private BootRepository bootRepository;
 
     public Iterable<Boot> getAllBoots()
     {
@@ -44,7 +40,7 @@ public class BootService
     public Boot deleteBoot(@PathVariable("id") Integer id) {
 
         Boot bootOptional=bootRepository.findById(id)
-                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                .orElseThrow(()->  new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "No boot found with this provided ID, delete failed."));
 
         bootRepository.delete(bootOptional);

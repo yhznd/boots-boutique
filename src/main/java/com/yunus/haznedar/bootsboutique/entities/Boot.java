@@ -63,4 +63,15 @@ public class Boot {
     public void setMaterial(String material) {
         this.material = material;
     }
+
+    @Override
+    public String toString() {
+        return "Boot{" +
+                "id=" + id +
+                ", type=" + type +
+                ", size=" + size +
+                ", quantity=" + quantity +
+                ", material='" + material + '\'' +
+                '}';
+    }
 }

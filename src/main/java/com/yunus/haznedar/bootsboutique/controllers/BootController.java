@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.yunus.haznedar.bootsboutique.config.RabbitMQConfig;
 import com.yunus.haznedar.bootsboutique.services.BootService;
 import com.yunus.haznedar.bootsboutique.entities.Boot;
 import com.yunus.haznedar.bootsboutique.enums.BootType;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/v1/boots")
-public class BootController {
-    private final BootService bootService;
+public class BootController
+{
+    @Autowired
+    private BootService bootService;
 
-    public BootController(final BootService bootService) {
-        this.bootService = bootService;
-    }
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @GetMapping("/")
     public Iterable<Boot> getAllBoots() {
@@ -45,12 +49,15 @@ public class BootController {
     @PostMapping("/")
     public Boot addBoot(@RequestBody Boot boot)
     {
-        return bootService.addBoot(boot);
+        bootService.addBoot(boot);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.BOUTIQUE_TOPIC_EXCHANGE,RabbitMQConfig.BOUTIQUE_ADD_RK, boot.toString());
+        return boot;
     }
 
     @DeleteMapping("/{id}")
     public Boot deleteBoot(@PathVariable("id") Integer id) {
 
+        rabbitTemplate.convertAndSend(RabbitMQConfig.BOUTIQUE_TOPIC_EXCHANGE,RabbitMQConfig.BOUTIQUE_DELETE_RK, "Deleted boot id:"+id);
         return bootService.deleteBoot(id);
     }
 
