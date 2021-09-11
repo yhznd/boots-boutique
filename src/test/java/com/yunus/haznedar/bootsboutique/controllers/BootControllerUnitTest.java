@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.Assert.*;
 import org.mockito.MockitoAnnotations;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,6 +27,9 @@ public class BootControllerUnitTest
     MockMvc mockMvc;
 
     @MockBean
+    private RabbitTemplate rabbitTemplate;
+
+    @MockBean
     private BootService bootService;
 
     @InjectMocks
@@ -38,7 +42,7 @@ public class BootControllerUnitTest
     }
 
     @Test
-    public void testAddBoot() throws Exception
+    public void testBootIncrement() throws Exception
     {
         Boot mockBoot = new Boot();
         mockBoot.setMaterial("leather");
@@ -49,19 +53,28 @@ public class BootControllerUnitTest
 
         when(bootService.addBoot(any(Boot.class))).thenReturn(mockBoot);
 
-        //simulate the form bean that would POST from the web page
-        Boot newBoot=new Boot();
-        newBoot.setMaterial("leather");
-        newBoot.setQuantity(47);
-        newBoot.setSize(10.1f);
-        newBoot.setId(3);
-        newBoot.setType(BootType.CHELSEA);
-
         //simulate the form submit (POST)
-        mockMvc.perform(put("/api/v1/boots/"+newBoot.getId()+"/quantity/increment", newBoot))
-                .andExpect(status().isOk()).andExpect(mvcResult -> assertTrue(newBoot.getQuantity()>47));
+        mockMvc.perform(put("/api/v1/boots/"+mockBoot.getId()+"/quantity/increment", mockBoot))
+                .andExpect(status().isOk()).andExpect(mvcResult -> assertTrue(mockBoot.getQuantity()>47));
 
+    }
 
+    @Test
+    public void testBootDecrement() throws Exception
+    {
+        Boot mockBoot = new Boot();
+        mockBoot.setMaterial("leather");
+        mockBoot.setQuantity(47);
+        mockBoot.setSize(10.1f);
+        mockBoot.setId(11);
+        mockBoot.setType(BootType.CHELSEA);
+
+        when(bootService.addBoot(any(Boot.class))).thenReturn(mockBoot);
+
+        //simulate the form bean that would POST from the web page
+        //simulate the form submit (POST)
+        mockMvc.perform(put("/api/v1/boots/"+mockBoot.getId()+"/quantity/decrement", mockBoot))
+                .andExpect(status().isOk()).andExpect(mvcResult -> assertTrue(mockBoot.getQuantity()<5));
 
     }
 }

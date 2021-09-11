@@ -1,7 +1,6 @@
 package com.yunus.haznedar.bootsboutique.controllers;
 
 import com.yunus.haznedar.bootsboutique.entities.Boot;
-import com.yunus.haznedar.bootsboutique.enums.BootType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
