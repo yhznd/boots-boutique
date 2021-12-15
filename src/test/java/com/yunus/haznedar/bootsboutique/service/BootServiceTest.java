@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,8 +39,8 @@ public class BootServiceTest
     {
         Mockito.when(bootRepository.save(Mockito.any(Boot.class))).thenReturn(new Boot(1, BootType.CHELSEA,3.23f,10,"PL"));
         Boot boot=new Boot();
-        assertEquals(bootRepository.save(boot).getMaterial(),"PL");
-        assertNotEquals(bootRepository.save(boot).getType(),BootType.DRESS);
+        assertEquals("PL",bootRepository.save(boot).getMaterial());
+        assertNotEquals(BootType.DRESS,bootRepository.save(boot).getType());
         assertFalse(bootRepository.save(boot).getSize()>3.24f);
         assertTrue(bootRepository.save(boot).getQuantity()!=14);
     }
@@ -52,17 +53,10 @@ public class BootServiceTest
         Optional<Boot> boot=bootRepository.findById(1);
 
         assertDoesNotThrow(()->bootService.deleteBoot(boot.get().getId()));
+        assertThrows(ResponseStatusException.class,()->bootService.deleteBoot(2));
 
     }
 
-    @Test
-    @DisplayName("Delete Boot Fail Test")
-    public void deleteBootFailTest()
-    {
-        Optional<Boot> boot=bootRepository.findById(2);
-        assertThrows(NoSuchElementException.class,()->bootService.deleteBoot(boot.get().getId()));
-
-    }
 
     @Test
     @DisplayName("Boot Increment/Decrement Test")
