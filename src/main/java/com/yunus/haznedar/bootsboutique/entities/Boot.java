@@ -74,4 +74,15 @@ public class Boot {
                 ", material='" + material + '\'' +
                 '}';
     }
+
+    public Boot(Integer id, BootType type, Float size, Integer quantity, String material) {
+        this.id = id;
+        this.type = type;
+        this.size = size;
+        this.quantity = quantity;
+        this.material = material;
+    }
+
+    public Boot() {
+    }
 }
