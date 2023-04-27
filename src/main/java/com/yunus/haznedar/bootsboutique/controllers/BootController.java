@@ -50,14 +50,11 @@ public class BootController
     public Boot addBoot(@RequestBody Boot boot)
     {
         bootService.addBoot(boot);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.BOUTIQUE_TOPIC_EXCHANGE,RabbitMQConfig.BOUTIQUE_ADD_RK, boot.toString());
         return boot;
     }
 
     @DeleteMapping("/{id}")
-    public Boot deleteBoot(@PathVariable("id") Integer id) {
-
-        rabbitTemplate.convertAndSend(RabbitMQConfig.BOUTIQUE_TOPIC_EXCHANGE,RabbitMQConfig.BOUTIQUE_DELETE_RK, "Deleted boot id:"+id);
+    public Boot deleteBoot(@PathVariable Integer id){
         return bootService.deleteBoot(id);
     }
 
